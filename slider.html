@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+
+      .testimonials-container {
+        
+        margin: 0 auto;
+        padding: 60px 0px;
+      }
+
+      .testimonials-header {
+        text-align: center;
+        margin-bottom: 40px;
+      }
+
+      .testimonials-header h2 {
+        font-size: 32px;
+        color: #222;
+        margin-top: 10px;
+      }
+
+      .testimonials-header p {
+        color: #777;
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+      }
+
+      .testimonials-slider {
+        position: relative;
+        margin: 0 auto;
+        overflow: hidden;
+        padding: 20px 0;
+      }
+
+      .slider-container {
+        position: relative;
+        width: 100%;
+        min-height: 400px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .testimonial-slide {
+        position: absolute;
+        width: 420px;
+        transition: all 0.5s ease;
+        padding: 0 15px;
+      }
+
+      .testimonial-card {
+        /* height: 330px; */
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        transition: all 0.3s ease;
+      }
+
+      .testimonial-slide.active {
+        z-index: 10;
+        transform: translateX(0) scale(1);
+        opacity: 1;
+      }
+
+      .cont-q {
+        padding: 10px 25px;
+        border-radius: 10px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+      }
+
+      .testimonial-slide.active .cont-q {
+        background-color: #212121;
+        color: white;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+      }
+
+      .testimonial-slide.prev {
+        z-index: 5;
+        transform: translateX(-100%) scale(0.85);
+        opacity: 0.7;
+      }
+
+      .testimonial-slide.next {
+        z-index: 5;
+        transform: translateX(100%) scale(0.85);
+        opacity: 0.7;
+      }
+
+      .testimonial-slide.inactive {
+        z-index: 1;
+        transform: translateX(calc(200% * var(--position-multiplier)))
+          scale(0.7);
+        opacity: 0;
+      }
+
+      .quote-icon {
+        color: #555;
+        font-size: 60px;
+        line-height: 1;
+        margin-bottom: 10px;
+        display: flex;
+        justify-content: center;
+      }
+
+      /* .active .quote-icon {
+        color: #555;
+      } */
+
+      .testimonial-content {
+        font-size: 14px;
+        line-height: 1.6;
+        margin-bottom: 20px;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 6;
+        -webkit-box-orient: vertical;
+      }
+
+      .testimonial-author {
+        display: flex;
+        align-items: center;
+        margin-top: auto;
+        flex-direction: column;
+        text-align: center;
+        margin-top: 30px;
+      }
+
+      .author-image {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        margin-bottom: 10px;
+
+        overflow: hidden;
+      }
+
+      .author-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .author-info h4 {
+        font-size: 18px;
+        margin-bottom: 5px;
+      }
+
+      .author-info p {
+        font-size: 14px;
+        color: #777;
+      }
+
+      .active .author-info p {
+        color: #bbb;
+      }
+
+      .slider-controls {
+        display: flex;
+        justify-content: center;
+        margin-top: 30px;
+        gap: 10px;
+      }
+
+      .slider-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background-color: #ddd;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      .slider-dot.active {
+        background-color: #333;
+        width: 40px;
+        border-radius: 10px;
+      }
+
+      .slider-arrow {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 40px;
+        height: 40px;
+        background-color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        z-index: 20;
+      }
+
+      .slider-arrow-left {
+        left: 20px;
+      }
+
+      .slider-arrow-right {
+        right: 20px;
+      }
+
+      .slider-arrow i {
+        border: solid #333;
+        border-width: 0 3px 3px 0;
+        display: inline-block;
+        padding: 3px;
+      }
+
+      .arrow-left {
+        transform: rotate(135deg);
+      }
+
+      .arrow-right {
+        transform: rotate(-45deg);
+      }
+
+      @media (max-width: 768px) {
+        .testimonial-slide {
+          max-width: 400px;
+        }
+
+        .testimonial-card {
+          padding: 20px;
+          max-width: 400px;
+          /* height: 350px; */
+        }
+
+        .slider-arrow-left {
+          left: 10px;
+        }
+
+        .slider-arrow-right {
+          right: 10px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="testimonials-container">
+      <div class="testimonials-slider">
+        <div class="slider-arrow slider-arrow-left">
+          <i class="arrow-left"></i>
+        </div>
+
+        <div class="slider-container" id="sliderContainer">
+          <!-- Testimonials will be dynamically inserted here -->
+        </div>
+
+        <div class="slider-arrow slider-arrow-right">
+          <i class="arrow-right"></i>
+        </div>
+      </div>
+
+      <div class="slider-controls" id="sliderControls">
+        <!-- Dots will be dynamically inserted here -->
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Testimonial data (this could come from an API or database)
+        const testimonialData = [
+          {
+            content:
+              "With Many Marketing Agencies, But None Digital. Their Systemized Approach Delivers Results, And Their Dedication To Client Success Is Unmatched.",
+            name: "Emily Santos",
+            title: "Real Estate Investor",
+            image: "https://randomuser.me/api/portraits/women/65.jpg",
+          },
+          {
+            content:
+              "I Was Amazed At How Quickly I Saw Results. Just 2 Days Into The Campaign, I Got My First Listing. Lux U Digital's Strategies Are A Game-Changer For Any Agent Looking To Grow Their Business.",
+            name: "Rodney Waits",
+            title: "Real Estate Agent",
+            image: "https://randomuser.me/api/portraits/men/32.jpg",
+          },
+          {
+            content:
+              "The Team At Lux U Digital Is Incredible. They've Helped Me Build A Strong Brand And Dominate My Market. Their Support Have Been Invaluable To My Success.",
+            name: "Sarah Mitchell",
+            title: "Real Estate Broker",
+            image: "https://randomuser.me/api/portraits/women/33.jpg",
+          },
+          {
+            content:
+              "Working with Lux U Digital transformed my business. Their expertise in digital marketing helped me close 30% more deals in just the first quarter.",
+            name: "James Wilson",
+            title: "Property Developer",
+            image: "https://randomuser.me/api/portraits/men/22.jpg",
+          },
+          {
+            content:
+              "The ROI with Lux U Digital has been exceptional. Their data-driven approach to real estate marketing ensures every dollar spent brings maximum returns.",
+            name: "Michelle Rodriguez",
+            title: "Real Estate Team Leader",
+            image: "https://randomuser.me/api/portraits/women/28.jpg",
+          },
+          {
+            content:
+              "From website development to lead generation, Lux U Digital delivers on every front. My online presence has never been stronger.",
+            name: "David Chang",
+            title: "Luxury Real Estate Specialist",
+            image: "https://randomuser.me/api/portraits/men/68.jpg",
+          },
+        ];
+
+        const sliderContainer = document.getElementById("sliderContainer");
+        const controlsContainer = document.getElementById("sliderControls");
+        const prevBtn = document.querySelector(".slider-arrow-left");
+        const nextBtn = document.querySelector(".slider-arrow-right");
+
+        let currentIndex = 0;
+        let autoSlideInterval;
+
+        // Create testimonial slides dynamically
+        function createSlides() {
+          sliderContainer.innerHTML = "";
+          controlsContainer.innerHTML = "";
+
+          testimonialData.forEach((testimonial, index) => {
+            // Determine slide position class
+            let positionClass = "inactive";
+            if (index === currentIndex) {
+              positionClass = "active";
+            } else if (index === getPrevIndex()) {
+              positionClass = "prev";
+            } else if (index === getNextIndex()) {
+              positionClass = "next";
+            }
+
+            // Set position multiplier for inactive slides
+            const positionMultiplier = index < currentIndex ? -1 : 1;
+
+            // Create slide
+            const slide = document.createElement("div");
+            slide.className = `testimonial-slide ${positionClass}`;
+            slide.setAttribute("data-index", index);
+            slide.style.setProperty(
+              "--position-multiplier",
+              positionMultiplier
+            );
+
+            slide.innerHTML = `
+                        <div class="testimonial-card">
+                            <div class='cont-q'>
+                                <div class="quote-icon"><svg xmlns="http://www.w3.org/2000/svg" width="86" height="87" viewBox="0 0 86 87" fill="none">
+<path opacity="0.4" d="M62.8367 71.6411C69.706 71.6411 75.2783 65.911 75.2783 58.8411C75.2783 51.7755 69.706 46.0411 62.8367 46.0411C50.3993 46.0411 58.6895 21.2987 75.2783 21.2987V15.3254C45.6719 15.3211 34.0708 71.6411 62.8367 71.6411ZM26.9967 71.6411C33.8617 71.6411 39.434 65.911 39.434 58.8411C39.434 51.7755 33.8617 46.0411 26.9967 46.0411C14.5551 46.0411 22.8452 21.2987 39.434 21.2987V15.3254C9.83186 15.3211 -1.76921 71.6411 26.9967 71.6411Z" fill="white"/>
+</svg></div>
+                                <p class="testimonial-content">${testimonial.content}</p>
+                            </div>
+                            
+                            <div class="testimonial-author">
+                                   <div class="author-image">
+                                    <img src="${testimonial.image}" alt="${testimonial.name}">
+                                </div>
+                             
+                                <div class="author-info">
+                                    <h4>${testimonial.name}</h4>
+                                    <p>${testimonial.title}</p>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+
+            sliderContainer.appendChild(slide);
+
+            // Create dot
+            const dot = document.createElement("div");
+            dot.className = `slider-dot ${
+              index === currentIndex ? "active" : ""
+            }`;
+            dot.setAttribute("data-index", index);
+            controlsContainer.appendChild(dot);
+
+            // Add click event to dot
+            dot.addEventListener("click", () => {
+              goToSlide(index);
+              resetAutoSlide();
+            });
+          });
+        }
+
+        // Get previous index with wraparound
+        function getPrevIndex() {
+          return (
+            (currentIndex - 1 + testimonialData.length) % testimonialData.length
+          );
+        }
+
+        // Get next index with wraparound
+        function getNextIndex() {
+          return (currentIndex + 1) % testimonialData.length;
+        }
+
+        // Update slide positions
+        function updateSlidePositions() {
+          const slides = document.querySelectorAll(".testimonial-slide");
+
+          slides.forEach((slide, index) => {
+            // Remove all position classes
+            slide.classList.remove("active", "prev", "next", "inactive");
+
+            // Determine new position class
+            if (index === currentIndex) {
+              slide.classList.add("active");
+            } else if (index === getPrevIndex()) {
+              slide.classList.add("prev");
+            } else if (index === getNextIndex()) {
+              slide.classList.add("next");
+            } else {
+              slide.classList.add("inactive");
+              const positionMultiplier = index < currentIndex ? -1 : 1;
+              slide.style.setProperty(
+                "--position-multiplier",
+                positionMultiplier
+              );
+            }
+          });
+
+          // Update dots
+          const dots = document.querySelectorAll(".slider-dot");
+          dots.forEach((dot, index) => {
+            dot.classList.toggle("active", index === currentIndex);
+          });
+        }
+
+        // Go to specific slide
+        function goToSlide(index) {
+          if (index < 0) {
+            index = testimonialData.length - 1;
+          } else if (index >= testimonialData.length) {
+            index = 0;
+          }
+
+          currentIndex = index;
+          updateSlidePositions();
+        }
+
+        // Auto slide functionality
+        function startAutoSlide() {
+          autoSlideInterval = setInterval(() => {
+            goToSlide(currentIndex + 1);
+          }, 5000); // Change slide every 5 seconds
+        }
+
+        function stopAutoSlide() {
+          clearInterval(autoSlideInterval);
+        }
+
+        function resetAutoSlide() {
+          stopAutoSlide();
+          startAutoSlide();
+        }
+
+        // Event listeners
+        prevBtn.addEventListener("click", () => {
+          goToSlide(currentIndex - 1);
+          resetAutoSlide();
+        });
+
+        nextBtn.addEventListener("click", () => {
+          goToSlide(currentIndex + 1);
+          resetAutoSlide();
+        });
+
+        sliderContainer.addEventListener("mouseover", stopAutoSlide);
+        sliderContainer.addEventListener("mouseleave", startAutoSlide);
+
+        // Handle touch events for mobile swipe
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        sliderContainer.addEventListener(
+          "touchstart",
+          (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+            stopAutoSlide();
+          },
+          { passive: true }
+        );
+
+        sliderContainer.addEventListener(
+          "touchend",
+          (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+            startAutoSlide();
+          },
+          { passive: true }
+        );
+
+        function handleSwipe() {
+          const swipeDistance = touchEndX - touchStartX;
+          if (swipeDistance > 50) {
+            // Swipe right (previous)
+            goToSlide(currentIndex - 1);
+          } else if (swipeDistance < -50) {
+            // Swipe left (next)
+            goToSlide(currentIndex + 1);
+          }
+        }
+
+        // Initialize
+        createSlides();
+        startAutoSlide();
+
+        // Add method to dynamically add new testimonials
+        window.addTestimonial = function (testimonial) {
+          testimonialData.push(testimonial);
+          createSlides();
+          resetAutoSlide();
+        };
+
+        // Update slide positions when window resizes
+        window.addEventListener("resize", () => {
+          createSlides();
+        });
+      });
+    </script>
+  </body>
+</html>
