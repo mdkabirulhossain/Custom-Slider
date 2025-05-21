@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700&display=swap">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+
+    .container {
+    font-family: 'Urbanist', sans-serif;
+   
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    .carousel-wrapper {
+      position: relative;
+      margin: 2rem 0;
+    }
+
+    .carousel-container {
+      overflow: hidden;
+      width: 100%;
+      position: relative;
+    }
+
+    .carousel-track {
+      display: flex;
+      width: fit-content;
+      position: relative;
+      padding: 20px 0;
+    }
+
+    .testimonial-card {
+      flex: 0 0 auto;
+      width: 350px;
+      margin: 0 15px;
+      padding: 1.5rem;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+    }
+
+    .user-info img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: 12px;
+    }
+
+    .user-details h3 {
+      font-size: 18px;
+      font-weight: 600;
+      color: #222;
+      margin-bottom: 2px;
+    }
+
+    .user-details p {
+      font-size: 14px;
+      color: #666;
+    }
+
+    .rating {
+      color: #ff9800;
+      font-size: 20px;
+    }
+
+    .testimonial-content {
+      font-size: 16px;
+      line-height: 1.6;
+      color: #444;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .testimonial-card {
+        width: 300px;
+        margin: 0 10px;
+        padding: 1.25rem;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .testimonial-card {
+        width: 250px;
+        margin: 0 8px;
+        padding: 1rem;
+      }
+      
+      .testimonial-content {
+        font-size: 14px;
+      }
+      
+      .user-info img {
+        width: 40px;
+        height: 40px;
+      }
+    }
+
+    @media (max-width: 400px) {
+      .testimonial-card {
+        width: 220px;
+        margin: 0 5px;
+        padding: 0.75rem;
+      }
+      
+      .user-details h3 {
+        font-size: 16px;
+      }
+      
+      .user-details p {
+        font-size: 12px;
+      }
+      
+      .testimonial-content {
+        font-size: 13px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="carousel-wrapper">
+    <div class="carousel-container">
+      <div class="carousel-track" id="track1">
+        <!-- First track (left to right) - Will be populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <div class="carousel-wrapper">
+    <div class="carousel-container">
+      <div class="carousel-track" id="track2">
+        <!-- Second track (right to left) - Will be populated by JS -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Testimonial data
+    const testimonials = [
+  {
+    name: "Jessica M",
+    title: "Teacher",
+    image: "https://storage.googleapis.com/msgsndr/vSUtghsI3JLEDaE9ZQA7/media/681763d69ee4f57e4f7cea95.svg",
+    content: "This is the first program that made healthy habits stick. I feel energized, supported, and finally consistent."
+  },
+  {
+    name: "Lauren K",
+    title: "Entrepreneur",
+    image: "https://storage.googleapis.com/msgsndr/vSUtghsI3JLEDaE9ZQA7/media/681763d6ce6e99302e27fe99.svg",
+    content: "The tone is warm, real, and motivating. I look forward to checking in each morning—it sets a positive tone for my day."
+  },
+  {
+    name: "Megan D",
+    title: "Designer",
+    image: "https://storage.googleapis.com/msgsndr/vSUtghsI3JLEDaE9ZQA7/media/68175e55ce6e99bf1027f55c.svg",
+    content: "I'm done with all-or-nothing. This community celebrates progress and gives me tools to show up, even on tough days."
+  },
+  {
+    name: "Keisha M",
+    title: "HR Director",
+    image: "https://storage.googleapis.com/msgsndr/VrTTgjMoHCZk4jeKOm9F/media/681b32f4f65d94d815017596.svg",
+    content: "Finally, a wellness journey that doesn't shame you. I feel supported, not judged—and that makes all the difference."
+  },
+  {
+    name: "Victoria R",
+    title: "Logistics Manager",
+    image: "https://storage.googleapis.com/msgsndr/VrTTgjMoHCZk4jeKOm9F/media/681b33db6da8494ee5d18ccb.svg",
+    content: "Every day I get something practical I can use—no fluff, no hype. Just actionable advice that works."
+  },
+  {
+    name: "Sophie L",
+    title: "Content Creator",
+    image: "https://storage.googleapis.com/msgsndr/VrTTgjMoHCZk4jeKOm9F/media/681b349adc69727217ff145e.svg",
+    content: "I start my day with the audio drop—it's like a friend cheering me on. I actually look forward to it!"
+  },
+  {
+    name: "Marcia J",
+    title: "Sales Consultant",
+    image: "https://storage.googleapis.com/msgsndr/VrTTgjMoHCZk4jeKOm9F/media/681b352aae927051b0030c96.svg",
+    content: "I've tried countless apps and programs, but this is the only one I've stuck with. It just fits into my life."
+  },
+  {
+    name: "Erika S",
+    title: "UX Designer",
+    image: "https://storage.googleapis.com/msgsndr/VrTTgjMoHCZk4jeKOm9F/media/681b35fb6da84922f1d19041.svg",
+    content: "Tuesdays used to drag. Now I get a mindset nudge that totally resets my week. Love the timing."
+  },
+  {
+    name: "Rachel P",
+    title: "Software Engineer",
+    image: "https://storage.googleapis.com/msgsndr/VrTTgjMoHCZk4jeKOm9F/media/681b36427618ce06b84a5b22.svg",
+    content: "This isn't just advice—it's a daily habit now. Like coffee, but for my mindset."
+  },
+
+];
+
+const testimonials2 = [
+  {
+    name: "Sophie L",
+    title: "Content Creator",
+    image: "https://storage.googleapis.com/msgsndr/VrTTgjMoHCZk4jeKOm9F/media/681b349adc69727217ff145e.svg",
+    content: "I start my day with the audio drop—it's like a friend cheering me on. I actually look forward to it!"
+  },
+,
+  {
+    name: "Jessica M",
+    title: "Teacher",
+    image: "https://storage.googleapis.com/msgsndr/vSUtghsI3JLEDaE9ZQA7/media/681763d69ee4f57e4f7cea95.svg",
+    content: "This is the first program that made healthy habits stick. I feel energized, supported, and finally consistent."
+  },
+  {
+    name: "Marcia J",
+    title: "Sales Consultant",
+    image: "https://storage.googleapis.com/msgsndr/VrTTgjMoHCZk4jeKOm9F/media/681b352aae927051b0030c96.svg",
+    content: "I've tried countless apps and programs, but this is the only one I've stuck with. It just fits into my life."
+  },
+  {
+    name: "Victoria R",
+    title: "Logistics Manager",
+    image: "https://storage.googleapis.com/msgsndr/VrTTgjMoHCZk4jeKOm9F/media/681b33db6da8494ee5d18ccb.svg",
+    content: "Every day I get something practical I can use—no fluff, no hype. Just actionable advice that works."
+  },
+  {
+    name: "Lauren K",
+    title: "Entrepreneur",
+    image: "https://storage.googleapis.com/msgsndr/vSUtghsI3JLEDaE9ZQA7/media/681763d6ce6e99302e27fe99.svg",
+    content: "The tone is warm, real, and motivating. I look forward to checking in each morning—it sets a positive tone for my day."
+  },
+  {
+    name: "Rachel P",
+    title: "Software Engineer",
+    image: "https://storage.googleapis.com/msgsndr/VrTTgjMoHCZk4jeKOm9F/media/681b36427618ce06b84a5b22.svg",
+    content: "This isn't just advice—it's a daily habit now. Like coffee, but for my mindset."
+  },
+  {
+    name: "Keisha M",
+    title: "HR Director",
+    image: "https://storage.googleapis.com/msgsndr/VrTTgjMoHCZk4jeKOm9F/media/681b32f4f65d94d815017596.svg",
+    content: "Finally, a wellness journey that doesn't shame you. I feel supported, not judged—and that makes all the difference."
+  },
+  {
+    name: "Megan D",
+    title: "Designer",
+    image: "https://storage.googleapis.com/msgsndr/vSUtghsI3JLEDaE9ZQA7/media/68175e55ce6e99bf1027f55c.svg",
+    content: "I'm done with all-or-nothing. This community celebrates progress and gives me tools to show up, even on tough days."
+  },
+  {
+    name: "Erika S",
+    title: "UX Designer",
+    image: "https://storage.googleapis.com/msgsndr/VrTTgjMoHCZk4jeKOm9F/media/681b35fb6da84922f1d19041.svg",
+    content: "Tuesdays used to drag. Now I get a mindset nudge that totally resets my week. Love the timing."
+  }
+];
+
+    // Get the tracks
+    const track1 = document.getElementById('track1');
+    const track2 = document.getElementById('track2');
+    
+    // Animation variables
+    let leftToRightAnimation = null;
+    let rightToLeftAnimation = null;
+    
+    // Create a testimonial card element
+    function createCard(testimonial) {
+      const card = document.createElement('div');
+      card.className = 'testimonial-card';
+      
+      card.innerHTML = `
+        <div class="card-header">
+          <div class="user-info">
+            <img src="${testimonial.image}" alt="${testimonial.name}" />
+            <div class="user-details">
+              <h3>${testimonial.name}</h3>
+              <p>${testimonial.title}</p>
+            </div>
+          </div>
+          <div class="rating">★★★★★</div>
+        </div>
+        <div class="testimonial-content">
+          <p>${testimonial.content}</p>
+        </div>
+      `;
+      
+      return card;
+    }
+    
+    // Initialize the sliders
+    function initSliders() {
+      // Clear existing content
+      track1.innerHTML = '';
+      track2.innerHTML = '';
+      
+      // Cancel any existing animations
+      if (leftToRightAnimation) cancelAnimationFrame(leftToRightAnimation);
+      if (rightToLeftAnimation) cancelAnimationFrame(rightToLeftAnimation);
+      
+      // Initialize left-to-right slider
+      initLeftToRightSlider();
+      
+      // Initialize right-to-left slider
+      initRightToLeftSlider();
+    }
+    
+    // Initialize left-to-right slider (track1)
+    function initLeftToRightSlider() {
+      // Add initial cards
+      testimonials.forEach(testimonial => {
+        track1.appendChild(createCard(testimonial));
+      });
+      
+      // Calculate how many more cards we need
+      const containerWidth = track1.closest('.carousel-container').offsetWidth;
+      const trackWidth = track1.scrollWidth;
+      
+      // Add more cards until we have enough to fill the container multiple times
+      let multiplier = 1;
+      while (trackWidth * multiplier < containerWidth * 3) {
+        testimonials.forEach(testimonial => {
+          track1.appendChild(createCard(testimonial));
+        });
+        multiplier++;
+      }
+      
+      // Start the animation
+      animateLeftToRight();
+    }
+    
+    // Initialize right-to-left slider (track2)
+    function initRightToLeftSlider() {
+      // Add initial cards
+      testimonials2.forEach(testimonial => {
+        track2.appendChild(createCard(testimonial));
+      });
+      
+      // Calculate how many more cards we need
+      const containerWidth = track2.closest('.carousel-container').offsetWidth;
+      const trackWidth = track2.scrollWidth;
+      
+      // Add more cards until we have enough to fill the container multiple times
+      let multiplier = 1;
+      while (trackWidth * multiplier < containerWidth * 3) {
+        testimonials.forEach(testimonial => {
+          track2.appendChild(createCard(testimonial));
+        });
+        multiplier++;
+      }
+      
+      // Start the animation
+      animateRightToLeft();
+    }
+    
+    // Animate left-to-right slider
+    function animateLeftToRight() {
+      let position = 0;
+      const speed = getSpeed();
+      
+      function step() {
+        // Move left
+        position -= speed;
+        track1.style.transform = `translateX(${position}px)`;
+        
+        // Check if we need to move a card from start to end
+        if (track1.children.length > 0) {
+          const firstCard = track1.children[0];
+          const cardWidth = firstCard.offsetWidth + 
+                           parseInt(window.getComputedStyle(firstCard).marginLeft) + 
+                           parseInt(window.getComputedStyle(firstCard).marginRight);
+          
+          if (Math.abs(position) >= cardWidth) {
+            // Move the first card to the end
+            track1.appendChild(firstCard);
+            // Reset position
+            position += cardWidth;
+            track1.style.transform = `translateX(${position}px)`;
+          }
+        }
+        
+        leftToRightAnimation = requestAnimationFrame(step);
+      }
+      
+      leftToRightAnimation = requestAnimationFrame(step);
+    }
+    
+    // Animate right-to-left slider
+    function animateRightToLeft() {
+      // Start with negative position to ensure cards are already visible
+      const firstSetWidth = calculateFirstSetWidth(track2);
+      let position = firstSetWidth;
+      track2.style.transform = `translateX(${position}px)`;
+      
+      const speed = getSpeed();
+      
+      function step() {
+        // Move right
+        position += speed;
+        track2.style.transform = `translateX(${position}px)`;
+        
+        // Check if we need to move cards
+        if (track2.children.length > 0) {
+          const lastCard = track2.children[track2.children.length - 1];
+          const cardWidth = lastCard.offsetWidth + 
+                           parseInt(window.getComputedStyle(lastCard).marginLeft) + 
+                           parseInt(window.getComputedStyle(lastCard).marginRight);
+          
+          // If we've moved too far to the right, reset
+          if (position > 0) {
+            // Move the last card to the beginning
+            track2.prepend(track2.children[track2.children.length - 1]);
+            // Adjust position
+            position -= cardWidth;
+            track2.style.transform = `translateX(${position}px)`;
+          }
+        }
+        
+        rightToLeftAnimation = requestAnimationFrame(step);
+      }
+      
+      rightToLeftAnimation = requestAnimationFrame(step);
+    }
+    
+    // Calculate width of the first set of cards
+    function calculateFirstSetWidth(track) {
+      let width = 0;
+      const cardCount = Math.min(testimonials.length, track.children.length);
+      
+      for (let i = 0; i < cardCount; i++) {
+        const card = track.children[i];
+        width += card.offsetWidth + 
+                parseInt(window.getComputedStyle(card).marginLeft) + 
+                parseInt(window.getComputedStyle(card).marginRight);
+      }
+      
+      return width;
+    }
+    
+    // Get animation speed based on screen size
+    function getSpeed() {
+      const screenWidth = window.innerWidth;
+      
+      if (screenWidth < 576) {
+        return 0.5; // Slower on mobile
+      } else if (screenWidth < 992) {
+        return 0.75; // Medium on tablets
+      } else {
+        return 1; // Default for desktops
+      }
+    }
+    
+    // Handle window resize
+    window.addEventListener('resize', debounce(() => {
+      initSliders();
+    }, 250));
+    
+    // Debounce function
+    function debounce(func, wait) {
+      let timeout;
+      return function() {
+        const context = this;
+        const args = arguments;
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(context, args), wait);
+      };
+    }
+    
+    // Initialize
+    initSliders();
+  });
+</script>
+
+</body>
+</html>
